@@ -1,6 +1,6 @@
 {
   "name": "connect-body-rewrite",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Rewrite request bodies.",
   "main": "index.js",
   "scripts": {
