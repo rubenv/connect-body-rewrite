@@ -15,27 +15,51 @@ function rewriter(options, uid) {
             res.end = end;
         }
 
-        function buffer(string, encoding) {
-            if (!string) {
-                return;
-            }
+        function sendHeaders() {
+            if (buffers[uid][res._rewriteId]) {
+                var data = buffers[uid][res._rewriteId];
 
+                if (data.status) {
+                    res.writeHead(data.status, data.headers);
+                }
+            }
+        }
+
+        function ensureBuffer() {
             if (!res._rewriteId) {
                 res._rewriteId = new Date().getTime() + '-' + Math.random();
             }
 
             if (!buffers[uid][res._rewriteId]) {
-                buffers[uid][res._rewriteId] = [];
+                buffers[uid][res._rewriteId] = {
+                    buffer: [],
+                    status: null,
+                    headers: null
+                };
             }
 
-            buffers[uid][res._rewriteId].push(string instanceof Buffer ? string.toString(encoding) : string);
+            return buffers[uid][res._rewriteId];
         }
 
-        res.writeHead = function () {};
+        function buffer(string, encoding) {
+            if (!string) {
+                return;
+            }
+
+            var data = ensureBuffer();
+            data.buffer.push(string instanceof Buffer ? string.toString(encoding) : string);
+        }
+
+        res.writeHead = function (status, headers) {
+            var data = ensureBuffer();
+            data.status = status;
+            data.headers = headers;
+        };
 
         res.write = function (string, encoding) {
             if (!options.accept(res)) {
                 restore(); 
+                sendHeaders();
                 res.write(string, encoding);
                 return;
             }
@@ -48,12 +72,13 @@ function rewriter(options, uid) {
             restore();
 
             if (buffers[uid][res._rewriteId]) {
-                string = buffers[uid][res._rewriteId].join('');
+                string = buffers[uid][res._rewriteId].buffer.join('');
                 delete buffers[uid][res._rewriteId];
 
                 string = options.rewrite(string);
 
                 res.setHeader('content-length', Buffer.byteLength(string, encoding));
+                sendHeaders();
             }
 
             res.end(string, encoding);
