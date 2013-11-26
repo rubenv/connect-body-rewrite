@@ -2,6 +2,8 @@
 
 > Rewrite response bodies for some requests.
 
+[![Build Status](https://travis-ci.org/rubenv/connect-body-rewrite.png?branch=master)](https://travis-ci.org/rubenv/connect-body-rewrite)
+
 This plugin allows you to write middleware methods that process the response
 body of a call.
 
