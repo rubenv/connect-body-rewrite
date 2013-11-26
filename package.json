@@ -4,7 +4,7 @@
   "description": "Rewrite request bodies.",
   "main": "index.js",
   "scripts": {
-    "test": "grunt build"
+    "test": "grunt test"
   },
   "keywords": [
     "connect",
@@ -17,10 +17,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "express": "~3.4.4",
     "grunt": "~0.4.1",
-    "grunt-release": "~0.6.0",
+    "grunt-contrib-jshint": "~0.7.1",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-jshint": "~0.7.1"
+    "grunt-mocha-cli": "~1.3.0",
+    "grunt-release": "~0.6.0",
+    "supertest": "~0.8.1"
   },
   "homepage": "https://github.com/rubenv/connect-body-rewrite",
   "repository": {

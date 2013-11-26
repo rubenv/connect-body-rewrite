@@ -71,7 +71,7 @@ function rewriter(options, uid) {
             buffer(string, encoding);
             restore();
 
-            if (buffers[uid][res._rewriteId]) {
+            if (buffers[uid][res._rewriteId] && options.accept(res)) {
                 string = buffers[uid][res._rewriteId].buffer.join('');
                 delete buffers[uid][res._rewriteId];
 
