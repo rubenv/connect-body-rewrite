@@ -28,11 +28,10 @@ describe('Accept', function () {
         supertest(app)
             .get('/json')
             .expect(200)
+            .expect('"OK"')
             .end(function (err, res) {
                 assert(!rewritten);
-                assert.equal(err, null);
-                assert.equal(res.body, 'OK');
-                done();
+                done(err);
             });
     });
 
@@ -41,12 +40,10 @@ describe('Accept', function () {
             .get('/html')
             .expect(401)
             .expect('Content-Type', /html/)
+            .expect('Auth needed!')
             .end(function (err, res) {
                 assert(rewritten);
-                assert.equal(err, null);
-                assert.equal(res.text, 'Auth needed!');
                 done(err);
             });
     });
 });
-

@@ -28,11 +28,10 @@ describe('Noop', function () {
         supertest(app)
             .get('/noop')
             .expect(200)
+            .expect('"OK"')
             .end(function (err, res) {
                 assert(!rewritten);
-                assert.equal(err, null);
-                assert.equal(res.body, 'OK');
-                done();
+                done(err);
             });
     });
 
@@ -41,10 +40,9 @@ describe('Noop', function () {
             .get('/authneeded')
             .expect(401)
             .expect('Content-Type', /html/)
+            .expect('Auth needed!')
             .end(function (err, res) {
                 assert(!rewritten);
-                assert.equal(err, null);
-                assert.equal(res.text, 'Auth needed!');
                 done(err);
             });
     });
