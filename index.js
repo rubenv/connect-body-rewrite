@@ -73,12 +73,12 @@ function rewriter(options, uid) {
 
             if (buffers[uid][res._rewriteId] && options.accept(res)) {
                 string = buffers[uid][res._rewriteId].buffer.join('');
-                delete buffers[uid][res._rewriteId];
-
                 string = options.rewrite(string);
 
                 res.setHeader('content-length', Buffer.byteLength(string, encoding));
                 sendHeaders();
+
+                delete buffers[uid][res._rewriteId];
             }
 
             res.end(string, encoding);
