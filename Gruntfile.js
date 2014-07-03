@@ -1,5 +1,6 @@
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-jscs-checker');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-release');
@@ -9,6 +10,13 @@ module.exports = function (grunt) {
             all: ['index.js', 'Gruntfile.js', 'test/**.js'],
             options: {
                 jshintrc: '.jshintrc'
+            }
+        },
+
+        jscs: {
+            all: ['index.js', 'Gruntfile.js', 'test/**.js'],
+            options: {
+                config: '.jscs.json'
             }
         },
 
@@ -35,7 +43,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['test']);
-    grunt.registerTask('build', ['jshint']);
+    grunt.registerTask('build', ['jshint', 'jscs']);
     grunt.registerTask('package', ['build', 'release']);
     grunt.registerTask('test', ['build', 'mochacli']);
 };

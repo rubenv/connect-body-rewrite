@@ -17,7 +17,7 @@ describe('Accept', function () {
         }
     }));
     app.get('/json', function (req, res) {
-        res.json('OK');    
+        res.json('OK');
     });
 
     app.get('/html', function (req, res) {

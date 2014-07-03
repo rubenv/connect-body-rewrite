@@ -24,10 +24,10 @@ describe('Multiple', function () {
         }
     }));
     app.get('/', function (req, res) {
-        res.send(200, 'Test');    
+        res.send(200, 'Test');
     });
     app.get('/authneeded', function (req, res) {
-        res.send(401, 'Test');    
+        res.send(401, 'Test');
     });
 
     it('Should rewrite multiple', function (done) {

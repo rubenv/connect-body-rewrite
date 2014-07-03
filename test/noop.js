@@ -17,7 +17,7 @@ describe('Noop', function () {
         }
     }));
     app.get('/noop', function (req, res) {
-        res.json('OK');    
+        res.json('OK');
     });
 
     app.get('/authneeded', function (req, res) {
