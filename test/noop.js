@@ -8,7 +8,7 @@ describe('Noop', function () {
 
     var app = express();
     app.use(rewrite({
-        accept: function (res) {
+        accept: function () {
             return false;
         },
         rewrite: function (body) {
@@ -17,11 +17,11 @@ describe('Noop', function () {
         }
     }));
     app.get('/noop', function (req, res) {
-        res.json("OK");    
+        res.json('OK');    
     });
 
     app.get('/authneeded', function (req, res) {
-        res.send(401, "Auth needed!");
+        res.send(401, 'Auth needed!');
     });
 
     it('Should not touch non-matching files', function (done) {
@@ -29,7 +29,7 @@ describe('Noop', function () {
             .get('/noop')
             .expect(200)
             .expect('"OK"')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(!rewritten);
                 done(err);
             });
@@ -41,7 +41,7 @@ describe('Noop', function () {
             .expect(401)
             .expect('Content-Type', /html/)
             .expect('Auth needed!')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(!rewritten);
                 done(err);
             });

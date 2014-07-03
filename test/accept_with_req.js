@@ -20,7 +20,7 @@ describe('Accept with req', function () {
     }));
 
     app.get('/html', function (req, res) {
-        res.send(200, "OK!");
+        res.send(200, 'OK!');
     });
 
     it('should not accept based on request params', function (done) {
@@ -28,7 +28,7 @@ describe('Accept with req', function () {
             .get('/html')
             .expect(200)
             .expect('OK!')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(!rewritten);
                 done(err);
             });
@@ -40,7 +40,7 @@ describe('Accept with req', function () {
             .expect(200)
             .expect('Content-Type', /html/)
             .expect('OK!')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(rewritten);
                 done(err);
             });

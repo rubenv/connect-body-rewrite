@@ -17,11 +17,11 @@ describe('Accept', function () {
         }
     }));
     app.get('/json', function (req, res) {
-        res.json("OK");    
+        res.json('OK');    
     });
 
     app.get('/html', function (req, res) {
-        res.send(401, "Auth needed!");
+        res.send(401, 'Auth needed!');
     });
 
     it('Should not accept JSON', function (done) {
@@ -29,7 +29,7 @@ describe('Accept', function () {
             .get('/json')
             .expect(200)
             .expect('"OK"')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(!rewritten);
                 done(err);
             });
@@ -41,7 +41,7 @@ describe('Accept', function () {
             .expect(401)
             .expect('Content-Type', /html/)
             .expect('Auth needed!')
-            .end(function (err, res) {
+            .end(function (err) {
                 assert(rewritten);
                 done(err);
             });
