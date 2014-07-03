@@ -50,6 +50,14 @@ function rewriter(options, uid) {
             data.buffer.push(string instanceof Buffer ? string.toString(encoding) : string);
         }
 
+        function accept() {
+            if (options.accept.length === 1) {
+                return options.accept(res);
+            } else {
+                return options.accept(req, res);
+            }
+        }
+
         res.writeHead = function (status, headers) {
             var data = ensureBuffer();
             data.status = status;
@@ -57,8 +65,8 @@ function rewriter(options, uid) {
         };
 
         res.write = function (string, encoding) {
-            if (!options.accept(res)) {
-                restore(); 
+            if (!accept()) {
+                restore();
                 sendHeaders();
                 res.write(string, encoding);
                 return;
@@ -71,7 +79,7 @@ function rewriter(options, uid) {
             buffer(string, encoding);
             restore();
 
-            if (buffers[uid][res._rewriteId] && options.accept(res)) {
+            if (buffers[uid][res._rewriteId] && accept()) {
                 string = buffers[uid][res._rewriteId].buffer.join('');
                 string = options.rewrite(string);
 
